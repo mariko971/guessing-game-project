@@ -6,8 +6,14 @@ const rl = readline.createInterface({
   output: stdout,
 });
 
-let secretNumber = 5;
+let secretNumber;
 
+// Get random integer between two values.
+const randomInRange = (min, max) => {
+  return Math.floor(Math.random() * (max - min) + min);
+};
+
+// function to check the user input value against the 'secretNumber.
 const checkGuess = (num) => {
   if (num > secretNumber) {
     console.log("Too high");
@@ -21,6 +27,7 @@ const checkGuess = (num) => {
   return true;
 };
 
+//Function takes the user's guess value and passes it to the 'checkGuess' function.
 const askGuess = () => {
   rl.question("Enter a guess: ", (ans) => {
     let isTrue = checkGuess(Number(ans));
@@ -33,4 +40,16 @@ const askGuess = () => {
   });
 };
 
-askGuess();
+// Function prompts user to input max and min values for range, assigns 'secretNumber' random value
+// within that range and calls the 'askGuess' function.
+const askRange = () => {
+  rl.question("Enter a max number: ", (max) => {
+    rl.question("Enter a min number: ", (min) => {
+      console.log(`I'm thinking of a number between ${min} and ${max}...`);
+      secretNumber = randomInRange(Number(min), Number(max));
+      askGuess();
+    });
+  });
+};
+
+askRange();
